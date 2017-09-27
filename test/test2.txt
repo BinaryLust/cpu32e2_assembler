@@ -1,0 +1,7 @@
+
+
+macro pi( hi, lo )
+    add r0, lo, r0
+    bytes hi, lo
+endmacro
+

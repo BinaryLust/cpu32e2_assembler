@@ -1,0 +1,89 @@
+
+    origin 10h
+	
+	data
+	    words str = "string", 0
+		bytes str2 = 1+1,2*2
+    enddata
+	
+x1:
+    align 32
+	data bytes test = 1, 2, 3
+	bytes [10*2] = 4 << 1
+	words arraycodedata[10] = 1
+	dwords singlecodedata   = 10, 15, 20
+    usub r1, r2, r3
+	
+	const tt = 2 * 2
+	
+	const
+	   t1 = 0
+	   t2 = 1 << 16
+	endconst
+	
+function pi1
+	
+	data bytes pi = "3.14"
+	
+	data
+	    align 256
+	    bytes  test    = 1, 2, 3
+		dwords char    = 'a'
+		dwords char2   = 'b', 'c', 0, 2*2, "str"
+		
+		bytes  message = "string", 0
+	enddata
+	
+	const tt = 2 * 2
+	
+	const
+	   t1 = 0
+	   t2 = 1 << 16
+	endconst
+	
+    //push r0
+x1:
+    add r0, r0, r0
+x2:
+    br [x1], ==
+	udiv r1, r1, r1, r1
+	br [x2], ==
+    //pop  r0
+endfunction
+
+
+
+
+
+
+
+
+
+/*add t0, a0, a1
+
+    data bytes pi[10] = 0
+    data words pi2 = 22, 22
+
+    origin 10h
+    align 64
+    bytes str = "test", "pi", 0
+
+function pi2
+    data
+        align 32
+        words test = 0, 0, 1+1
+        bytes tt = 4, test
+
+    enddata
+
+    const pi = 0
+    
+    const
+        test = 2 * 2
+
+    endconst
+
+    align 16
+    add r0, r0, r0
+endfunction*/
+
