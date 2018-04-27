@@ -1,4 +1,4 @@
-// Generated from E:\My Code\java\cpu32e2_assembler4\src\assembler\grammar\assembler.g4 by ANTLR 4.5.3
+// Generated from E:/My Code/java/cpu32e2_assembler/src/main/java/assembler/grammar\assembler.g4 by ANTLR 4.7
 package assembler.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 

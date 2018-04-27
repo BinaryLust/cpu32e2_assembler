@@ -13,22 +13,25 @@ public class SymbolTable
     private int                             topScope;
     private LinkedList<Integer>             scopeStack;
     private ScopeTreeNode                   scopeTree;
+    private boolean                         showDebugInfo;
     
     
     // constructor
-    public SymbolTable()
+    public SymbolTable(boolean showDebugInfo)
     {
-        symbolTable  = new HashMap<>();
-        currentScope = 0;
-        topScope     = 0;
-        scopeStack   = new LinkedList<>();
+        this.showDebugInfo = showDebugInfo;
+        symbolTable        = new HashMap<>();
+        currentScope       = 0;
+        topScope           = 0;
+        scopeStack         = new LinkedList<>();
         scopeStack.addFirst(0);                         // start with scope 0 (global scope)
-        scopeTree = new ScopeTreeNode("globals", null); // create the first node of the scope tree
+        scopeTree          = new ScopeTreeNode("globals", null); // create the first node of the scope tree
         ScopeTreeNode.nodeTable.put(0, scopeTree);      // add this node to the global node table
-        System.out.println("Entering scope: " + ScopeTreeNode.nodeTable.get(currentScope).getPath());
+        if(showDebugInfo)
+            System.out.println("Entering scope: " + ScopeTreeNode.nodeTable.get(currentScope).getPath());
     }
-    
-    
+
+
     public void resetScope()
     {
         currentScope = 0;
@@ -42,7 +45,8 @@ public class SymbolTable
         currentScope = topScope;
         scopeStack.addFirst(topScope);        // push the new scope level on to the stack
         scopeTree = scopeTree.addChild(name, topScope);
-        System.out.println("Entering scope: " + ScopeTreeNode.nodeTable.get(currentScope).getPath());
+        if(showDebugInfo)
+            System.out.println("Entering scope: " + ScopeTreeNode.nodeTable.get(currentScope).getPath());
     }
     
     
@@ -51,7 +55,8 @@ public class SymbolTable
         scopeStack.removeFirst();             // pop the previous scope level off the stack
         currentScope = scopeStack.getFirst(); // set current scope to the top of the stack
         scopeTree = ScopeTreeNode.nodeTable.get(currentScope);
-        System.out.println("Entering scope: " + ScopeTreeNode.nodeTable.get(currentScope).getPath());
+        if(showDebugInfo)
+            System.out.println("Entering scope: " + ScopeTreeNode.nodeTable.get(currentScope).getPath());
     }
     
     
@@ -83,7 +88,8 @@ public class SymbolTable
         }
         else
         {
-            System.out.println("Insert: " + key);
+            if(showDebugInfo)
+                System.out.println("Insert: " + key);
             
             Entry entry = new Entry(name, currentScope, type, value);
             symbolTable.put(key, entry); // if it doesn't add the symbol entry and return true
@@ -109,7 +115,8 @@ public class SymbolTable
         {
             String key = name + "[" + scope + "]";
             
-            System.out.println("Search: " + key);
+            if(showDebugInfo)
+                System.out.println("Search: " + key);
             
             if(symbolTable.containsKey(key))
                 return symbolTable.get(key); // if we get a match return the entry

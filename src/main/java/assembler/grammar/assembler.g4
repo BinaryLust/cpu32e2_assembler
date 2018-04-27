@@ -301,7 +301,7 @@ NEWLINE     : '\r'? '\n' ; // match newline
 
 CHAR        : '\'' . '\'' ;
 
-STRING      : '\"' ~[\"]+ '\"' ;
+STRING      : '"' ~["]+ '"' ;
 
 SINGLE_CMNT : '//' ~[\n]*  -> skip;  // ignore comments in lexer
 

@@ -33,7 +33,7 @@ public class Assembler
     public boolean assemble(String str, boolean showDebugInfo)
     {
         // create a symbol table
-        SymbolTable symbolTable = new SymbolTable();
+        SymbolTable symbolTable = new SymbolTable(showDebugInfo);
 
         // create an error listener
         CustomErrorListener          errorListener = new CustomErrorListener();
