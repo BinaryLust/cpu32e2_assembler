@@ -25,11 +25,4 @@ hs_err_pid*
 
 .idea
 *.iml
-
-build
-dist
-nbproject
-*.xml
-*.properties
-*.mf
-*.bin
+*.csv
