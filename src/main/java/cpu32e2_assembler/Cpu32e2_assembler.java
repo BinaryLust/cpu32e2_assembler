@@ -363,7 +363,7 @@ public class Cpu32e2_assembler {
                 }
 
                 // write end of file line
-                dataOutput.write(String.format(":%02X%04X00%S%02X", 0, 0, "", 0xff));
+                dataOutput.write(":00000001FF");
 
                 dataOutput.close();
                 outputStream.close();
