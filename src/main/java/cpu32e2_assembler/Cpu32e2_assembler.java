@@ -254,7 +254,128 @@ public class Cpu32e2_assembler {
     
     private void generateHex()
     {
-        
+        File selectedFile = new File(outputDirectory + mainArgs.outputFile + ".hex");
+
+        if(selectedFile != null)
+        {
+            try
+            {
+                FileOutputStream outputStream = new FileOutputStream(selectedFile);
+                BufferedWriter   dataOutput   = new BufferedWriter(new OutputStreamWriter(outputStream));
+
+                int[]         lineBytes = new int[21];
+                int           address   = 0;  // default address 0 start
+                int           value;
+
+                for(int i = 0; i < assembler.data.size(); i += 4)
+                {
+                    StringBuilder data = new StringBuilder(); // we should not create a new stringbuilder each loop
+
+                    lineBytes[0] = 16;                      // byte count
+                    lineBytes[1] = ((address >> 8) & 0xff); // address
+                    lineBytes[2] = ((address >> 0) & 0xff);
+                    lineBytes[3] = 0;                       // data record type
+
+                    if(i < assembler.data.size())
+                    {
+                        value = assembler.data.get(i);
+                        lineBytes[4] = (value >> 24) & 0xff;
+                        lineBytes[5] = (value >> 16) & 0xff;
+                        lineBytes[6] = (value >> 8)  & 0xff;
+                        lineBytes[7] = (value >> 0)  & 0xff;
+                    }
+                    else
+                    {
+                        lineBytes[4] = 0;
+                        lineBytes[5] = 0;
+                        lineBytes[6] = 0;
+                        lineBytes[7] = 0;
+                    }
+
+                    if((i+1) < assembler.data.size())
+                    {
+                        value = assembler.data.get(i+1);
+                        lineBytes[8]  = (value >> 24) & 0xff;
+                        lineBytes[9]  = (value >> 16) & 0xff;
+                        lineBytes[10] = (value >> 8)  & 0xff;
+                        lineBytes[11] = (value >> 0)  & 0xff;
+                    }
+                    else
+                    {
+                        lineBytes[8]  = 0;
+                        lineBytes[9]  = 0;
+                        lineBytes[10] = 0;
+                        lineBytes[11] = 0;
+                    }
+
+                    if((i+2) < assembler.data.size())
+                    {
+                        value = assembler.data.get(i+2);
+                        lineBytes[12] = (value >> 24) & 0xff;
+                        lineBytes[13] = (value >> 16) & 0xff;
+                        lineBytes[14] = (value >> 8)  & 0xff;
+                        lineBytes[15] = (value >> 0)  & 0xff;
+                    }
+                    else
+                    {
+                        lineBytes[12] = 0;
+                        lineBytes[13] = 0;
+                        lineBytes[14] = 0;
+                        lineBytes[15] = 0;
+                    }
+
+                    if((i+3) < assembler.data.size())
+                    {
+                        value = assembler.data.get(i+3);
+                        lineBytes[16] = (value >> 24) & 0xff;
+                        lineBytes[17] = (value >> 16) & 0xff;
+                        lineBytes[18] = (value >> 8)  & 0xff;
+                        lineBytes[19] = (value >> 0)  & 0xff;
+                    }
+                    else
+                    {
+                        lineBytes[16] = 0;
+                        lineBytes[17] = 0;
+                        lineBytes[18] = 0;
+                        lineBytes[19] = 0;
+                    }
+
+                    int checkSum = 0;
+                    for(int n = 0; n < 20; n++)
+                        checkSum += lineBytes[n];
+
+                    checkSum = checkSum & 0xff; // get the lsb only
+                    checkSum = -checkSum;       // and negate it
+
+                    lineBytes[20] = checkSum & 0xff; // checksum
+
+                    data.append(":");
+
+                    for(int n = 0; n < 21; n++)
+                        data.append(String.format("%02X", lineBytes[n]));
+
+                    data.append("\n");
+
+                    // output string version of data to file
+                    dataOutput.write(data.toString());
+
+                    address += 16;
+                }
+
+                // write end of file line
+                dataOutput.write(String.format(":%02X%04X00%S%02X", 0, 0, "", 0xff));
+
+                dataOutput.close();
+                outputStream.close();
+            } catch(FileNotFoundException ex) {
+                System.out.println("Unable to open file '" + selectedFile + "'");
+            } catch(IOException ex) {
+                System.out.println("Error writing file '" + selectedFile + "'");
+                // ex.printStackTrace();
+            }
+
+            System.out.println("File Saved At " + selectedFile.getAbsolutePath());
+        }
     }
 }
 
