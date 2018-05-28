@@ -24,5 +24,9 @@
 hs_err_pid*
 
 .idea
+.settings
+.classpath
+target
+.project
 *.iml
 *.csv
